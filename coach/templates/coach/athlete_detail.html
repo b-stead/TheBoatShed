@@ -1,0 +1,19 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+<span style="float: right;">
+{% if athlete.owner == user %}
+</span>
+<h1> This is {{ athlete.name }}</h1>
+
+<p>
+
+</p>
+<p>
+<small>{{ athlete.dob}} - {{athlete.club}} - {{athlete.coach}}</small> 
+{% endif %}
+<p>
+<a href="{% url 'coach:athlete' %}">All Athletes</a> | <a href="{% url 'home' %}">Home</a> 
+</p>
+
+{% endblock %}

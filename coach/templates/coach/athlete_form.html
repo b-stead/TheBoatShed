@@ -1,0 +1,16 @@
+{% extends "base_menu.html" %}
+{% load static %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+<div>
+    <h1>Add someone to your team </h1>
+    <P>Please check spelling and data</P>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form|crispy }}
+      <button type="submit">Submit</button>
+    </form><hr>
+<ul>
+<div>
+{% endblock %}

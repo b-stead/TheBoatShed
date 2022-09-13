@@ -1,0 +1,28 @@
+{% extends "base_menu.html" %}
+{% block content %}
+
+<h1>Your Athletes</h1>
+<p>Click on an athlete to check info</p>
+<p>
+  {% if athlete_list %}
+<ul>
+  {% for athlete in athlete_list %}
+  {% if athlete.owner == user %}Hello, {{user.username }}
+  {% csrf_token %}
+    <form action="{% url 'coach:athlete_detail' athlete.id %}" method="post">
+    <li>
+        <a href="{% url 'coach:athlete_detail' athlete.id %}">{{ athlete.name}} | {{ athlete.get_status_display }}</a>
+            
+  {% endif %}
+    </li>
+  {% endfor %}
+
+
+  {% else %}
+  <p>There are no athletes in the database.</p>
+  {% endif %}
+</p>
+<p>
+<a href="{% url 'coach:athlete_create' %}">Add an athlete</a> | <a href="{% url 'home' %}">Home</a> 
+</p>
+{% endblock %}

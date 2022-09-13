@@ -1,0 +1,31 @@
+{% extends "base_menu.html" %}
+{% block content %}
+
+<h1>Your Squads</h1>
+<p>Click on a squad to check info</p>
+<p>
+  {% if squad_list %}
+<ul>
+  {% for squad in squad_list %}
+  {% if squad.user == user %}Hello, {{user.username }}
+  {% csrf_token %}
+    <!--
+
+      <form action="{% url 'coach:squad_detail' squad.id %}" method="post">
+    <li>
+        <a href="{% url 'coach:squad_detail' squad.id %}">{{ squad.name}}</a>
+    -->>
+            
+  {% endif %}
+    </li>
+  {% endfor %}
+
+
+  {% else %}
+  <p>There are no squads in the database.</p>
+  {% endif %}
+</p>
+<p>
+<a href="{% url 'coach:squad_create' %}">Add a squad</a> | <a href="{% url 'home' %}">Home</a> 
+</p>
+{% endblock %}

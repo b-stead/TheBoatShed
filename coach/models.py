@@ -1,95 +1,148 @@
-from pyexpat import model
-from django.db import models
 from tkinter import CASCADE
-from tabnanny import verbose
+from tkinter.tix import Tree
+from django.db import models
 from django.conf import settings
 from django.core.validators import MinLengthValidator
-from django.contrib.auth.models import User
-
-
-# Create your models here.
+from django.forms import DateField
+from django.utils import timezone
+from django.forms.widgets import DateInput
+from datetime import datetime, timedelta
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext as _
+             
+#setup for athlete profiles & forms , is there a better DRY version??
 GENDER = (
     (None, 'Choose your gender'),
-    ('male', 'male'),
-    ('female', 'female'),
-    ('other', 'other'),
+    ('0', 'male'),
+    ('1', 'female'),
+    ('3', 'other'),
 )
 
 DISCIPLINE = (
     (None, 'Choose your primary discipline'),
-    ('kayak', 'kayak'),
-    ('canoe', 'canoe'),
-    ('sup', 'sup'),
-    ('ski', 'ski'),
+    ('0', 'kayak'),
+    ('1', 'canoe'),
+    ('2', 'sup'),
 )
 
 CLASSIFICATION = (
-    ('able-bodied', 'able-bodied'),
-    ('para-canoe', 'para-canoe'),
+    ('0', 'able-bodied'),
+    ('1', 'para-canoe'),
 )
 
 WATER_COND = (
-    ('calm', 'calm'),
-    ('ripples', 'ripples'),
-    ('slight', 'slight'),
-    ('rough', 'rough'),
+    ('0', 'calm'),
+    ('1', 'ripples'),
+    ('2', 'slight'),
+    ('3', 'rough'),
 )
 
 BOATTYPE = (
     (None, 'Choose a boat'),
-    ('k1', 'k1'),
-    ('k2', 'k2'),
-    ('k4', 'k4'),
-    ('c1', 'c1'),
-    ('c2', 'c2'),
-    ('c4', 'c2'),
-    ('Vaa', 'Vaa'),
-    ('sk1', 'sk1'),
-    ('sk2', 'sk2'),
+    ('1', 'k1'),
+    ('2', 'k2'),
+    ('3', 'k4'),
+    ('4', 'c1'),
+    ('5', 'c2'),
+    ('6', 'c2'),
+    ('7', 'Va\'a'),
+    ('8', 'sup'),
 )
 
-ACTIVE_STATUS = 0
-INACTIVE_STATUS = 1
+SEAT_POSITION = (
 
-STATUS = (
-    (ACTIVE_STATUS, "Active"),
-    (INACTIVE_STATUS, "Inactive"),
+    ('0', 'First'),
+    ('1', 'Second'),
+    ('2', 'Third'),
+    ('3', 'Fourth'),
 )
 
-class User(User):
-    is_coach = models.BooleanField(default=False)
+
+
+class StandardMetadata(models.Model):
+    """
+    A basic (abstract) model for metadata.
+    
+	Subclass new models from 'StandardMetadata' instead of 'models.Model'.
+    """
+    created = models.DateTimeField(default=datetime.now, editable=False)
+    updated = models.DateTimeField(default=datetime.now, editable=False)
+    
+    class Meta:
+        abstract = True
+    
+    def save(self, *args, **kwargs):
+        self.updated = datetime.now()
+        super(StandardMetadata, self).save(*args, **kwargs)
+
+class User(AbstractUser):
     is_athlete = models.BooleanField(default=False)
-  
-class Squad(models.Model):
-    name = models.CharField(max_length=10, blank=True)
+    is_coach = models.BooleanField(default=False)
+
+class Sport(StandardMetadata):
+    """Sport model.
+       A farily simple model to handle categorizing of teams into sports."""
+    name=models.CharField(_('name'), max_length=100)
+    slug=models.SlugField(_('slug'), unique=True) 
+
+    def __unicode__(self):
+        return self.name
 
 class Coach(models.Model):
-    name = models.CharField(max_length=50, validators=[MinLengthValidator(1, "Name must be greater than 1 character")], null=True)
-    email = models.EmailField(max_length=254, null=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    #squad = models.ForeignKey(Squad, on_delete=models.CASCADE, related_name='my_squad')
-    USERNAME_FIELD = 'user'
-    class Meta:
-        verbose_name_plural = 'Coaches'
-
+    name = models.CharField(max_length=50, validators=[MinLengthValidator(1, "Name must be greater than 1 character")], null=True)
     def __str__(self):
         return self.name
 
 class Athlete(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=50, validators=[MinLengthValidator(1, "Name must be greater than 1 character")], null=True)
     dob = models.DateField(verbose_name="D.O.B", null=True)
     gender = models.CharField(max_length=6, choices=GENDER, verbose_name="gender", blank=True)
     discipline = models.CharField(max_length=6, choices=DISCIPLINE, verbose_name="discipline", blank=True)
     classification = models.CharField(max_length=12, choices=CLASSIFICATION, verbose_name="classification", blank=True)
     club = models.CharField(max_length=50, verbose_name="club", blank=True)
-    coach = models.ForeignKey(Coach, on_delete=models.CASCADE, related_name='my_coach')
-    #squad = models.ForeignKey(Squad, on_delete=models.CASCADE, related_name='my_squad')
-    status = models.IntegerField(choices=STATUS, default=0)
-    class Meta:
-        verbose_name_plural = 'Athletes'
+    coach = models.ManyToManyField('Coach', through='Squads')
+    def __str__(self):
+        return self.name
+
+
+class Squads(models.Model):
+    name = models.CharField(max_length=50, validators=[MinLengthValidator(1, "Name must be greater than 1 character")], null=True)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
+    coach = models.ForeignKey(Coach, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
+
+class BoatType(models.Model):
+    name = models.CharField(max_length=4, choices=BOATTYPE, verbose_name="boat", blank=True)
+    
+    def __str__(self):
+        return self.name
+
+class Venue(models.Model):
+    name = models.CharField(max_length=50, validators=[MinLengthValidator(1, "Venue must be greater than 1 character")], null=True)       
+    
+    def __str__(self):
+        return self.name
+
+class Session(models.Model):
+    uid = models.CharField(max_length=50, validators=[MinLengthValidator(1,"AthleteInitials-Date dd/mm/yyy- session")], null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    crew=models.CharField(max_length=20, validators=[MinLengthValidator(1, "Crew must be greater than 1 character")], null=True)
+    session_name=models.CharField(max_length=20, null=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    session_date = models.DateTimeField(default=timezone.now)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
+    boat = models.ForeignKey(BoatType, on_delete=models.CASCADE, null=True)
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.name        
+        return self.uid
+    
 
-
-
+class Effort(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    length = models.PositiveIntegerField(verbose_name="Distance(m)")
+    time = models.PositiveIntegerField(verbose_name="Time(s)")

@@ -47,8 +47,9 @@ INSTALLED_APPS = [
     'channels_redis',
 
     'home.apps.HomeConfig',
-    'coach.apps.CoachConfig',
+    'users.apps.UsersConfig',
     'blog.apps.BlogConfig',
+    'coach.apps.CoachConfig',
     'vbox.apps.VboxConfig',
 ]
 
@@ -146,13 +147,17 @@ PLOTLY_COMPONENTS = [
     
     'dpd_components'
 ]
-STATICFILES_LOCATION = 'static'
 
+#set static HTML-CSS files locations
+STATICFILES_LOCATION = 'static'
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'TheBoatShed/static')
 ]
+
+AUTH_USER_MODEL = 'coach.User'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -162,6 +167,7 @@ REST_FRAMEWORK = {
 }
 
 # Configure the social login
+
 """
 try:
     from . import github_settings
@@ -169,9 +175,10 @@ try:
     SOCIAL_AUTH_GITHUB_SECRET = github_settings.SOCIAL_AUTH_GITHUB_SECRET
 except:
     print('When you want to use social login, please see dj4e-samples/github_settings-dist.py')
-"""
+
 SOCIAL_AUTH_GITHUB_KEY=config("SOCIAL_AUTH_GITHUB_KEY")
 SOCIAL_AUTH_GITHUB_SECRET=config("SOCIAL_AUTH_GITHUB_SECRET")
+"""
 
 # https://python-social-auth.readthedocs.io/en/latest/configuration/django.html#authentication-backends
 # https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
@@ -186,9 +193,14 @@ AUTHENTICATION_BACKENDS = (
 
     'django.contrib.auth.backends.ModelBackend',
 )
+LOGIN_URL = 'login'
 
-LOGOUT_REDIRECT_URL = '/home'
-LOGIN_REDIRECT_URL = '/home'
+LOGOUT_URL = 'logout'
+
+LOGOUT_REDIRECT_URL = 'home:home'
+
+LOGIN_REDIRECT_URL = 'coach:home'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

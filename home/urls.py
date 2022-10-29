@@ -1,9 +1,13 @@
 from django.urls import path
-from . import views
-from django.contrib.auth import views as auth_views
 
+from .views import AboutView, HomeView, FaqView, ContactView
+from django.contrib.auth import views as auth_views
+app_name = 'home'
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='home'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('faq/', FaqView.as_view(), name='faq'),
+    path('contact/', ContactView.as_view(), name='contact'),
 
 ]

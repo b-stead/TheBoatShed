@@ -1,0 +1,23 @@
+
+
+<style>
+    .card{
+        box-shadow: 0 16px 48px #E3E7EB;
+    }
+</style>
+
+<!-- Sidebar Widgets Column -->
+<div class="col-md-4 float-right ">
+    <div class="card my-4">
+        <h5 class="card-header">About Us</h5>
+        <div class="card-body">
+            <p class="card-text">This blog is here to explore our interests in coaching</p>
+            <p> put a link here</p>
+            <li class="nav-item"><a class="nav-link" href="{% url 'coach:squad' %}">add Squad</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'coach:athlete' %}">add Athlete</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'coach:session' %}">add Session</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'coach:effort' %}">add Effort</a></li>
+        </div>
+    </div>
+</div>
+

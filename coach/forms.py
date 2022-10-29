@@ -1,44 +1,62 @@
 from dataclasses import fields
-from django import forms
-from .models import Coach, Athlete
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from django.db import transaction
 from django.forms.utils import ValidationError
+from django import forms
+from .models import Athlete, Coach, Session, Effort, Squads, User
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.contrib.auth.models import User
 
-
-# form for vbo upload
-class AthleteForm(forms.ModelForm):
+class SessionCreateForm(forms.ModelForm):
     class Meta:
-        model = Athlete
-        fields = ['name', 'dob', 'gender', 'discipline', 'classification', 'club']
+        model = Session
+        fields = '__all__'
 
-class CoachForm(forms.ModelForm):
+
+class AthleteSignUpForm(UserCreationForm):
+    sessions = forms.ModelMultipleChoiceField(
+        queryset=Session.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_student = True
+        user.save()
+        athlete = Athlete.objects.create(user=user)
+        athlete.session.add(*self.cleaned_data.get('sessions'))
+        return user
+
+class CoachSignUpForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_coach = True
+        if commit:
+            user.save()
+        return user
+
+class EffortCreateForm(forms.ModelForm):
     class Meta:
-        model = Coach
-        fields = ['name', 'email', 'user'] 
+        model = Effort
+        fields = '__all__'
+
+class SquadCreateForm(forms.ModelForm):
+    class Meta:
+        model = Squads
+        fields = '__all__'     
+
 
 """
-class SquadForm(forms.ModelForm):
+class AthleteCreateForm(forms.ModelForm):
     class Meta:
-        model = Squad
-        fields = ['name', 'athlete', 'coach'] 
-		"""
-
-
-class NewUserForm(UserCreationForm):
-	email = forms.EmailField(required=True)
-	name = forms.CharField(max_length=30)
-
-	class Meta:
-		model = Coach
-		
-		fields = ("name", "email", "password1", "password2")
-
-	def save(self, commit=True):
-		user = super(NewUserForm, self).save(commit=False)
-		user.email = self.cleaned_data['email']
-		if commit:
-			user.save()
-		return user
+        model = Athlete
+        fields = '__all__'
+"""        

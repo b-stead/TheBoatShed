@@ -21,14 +21,20 @@ from django.conf.urls.static import static
 from django.urls import include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
+from coach.pages import athletes, coaches, squads
 
 urlpatterns = [
     path('home/', include('home.urls')), #home page
-    path('coach/', include('coach.urls')),
     path('blog/', include('blog.urls')),
+    path('coach/', include('coach.urls')),
     path('vbox/', include('vbox.urls')),
+    path('users/', include('users.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
+    path('accounts/signup/', squads.SignUpView.as_view(), name='signup'),
+    path('accounts/signup/student/', athletes.AthleteSignUpView.as_view(), name='athlete_signup'),
+    path('accounts/signup/coach/', coaches.CoachSignUpView.as_view(), name='coach_signup'),
+
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  #line used to link up document upload urls
@@ -44,13 +50,18 @@ urlpatterns += [
     ),
 ]
 
+
 # Switch to social login if it is configured - Keep for later
+
+"""
 try:
     from . import github_settings
-    social_login = 'registration/login_social.html'
+    social_login = 'registration/login.html'
     urlpatterns.insert(0,
                        path('accounts/login/', auth_views.LoginView.as_view(template_name=social_login))
                        )
     print('Using', social_login, 'as the login template')
 except:
     print('Using registration/login.html as the login template')
+"""
+

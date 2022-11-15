@@ -5,13 +5,14 @@
 {% load app_tags %}
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div ng-include="'_sidebar.html'"></div>
     <div class="container px-5">
         {% url 'home' as home %}
         <a class="navbar-brand" href="{% url 'home:home' %}">TheBoatShed</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{% url 'home:home' %}">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'home:boat_shed' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'home:about' %}">About</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'home:contact' %}">Contact</a></li>
                 <!-- <li class="nav-item"><a class="nav-link" href="##">Pricing</a></li> -->
@@ -20,24 +21,24 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" data-bs-toggle="dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                         <li><a class="dropdown-item" href="{% url 'blog:post_list' %}">Blog Home</a></li>
-                        <li><a class="dropdown-item" href="{% url 'blog:post_detail'}">Blog Post</a></li>
+                        <li><a class="dropdown-item" href="##">Blog Post</a></li>
                     </ul>
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMyTeam" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Team</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMyTeam">
-                        <li><a class="dropdown-item" href="portfolio-overview.html">Team Overview</a></li>
+                        <li><a class="dropdown-item" href="{% url 'athletes:coach' %}">Coach Home</a></li>
                         <li><a class="dropdown-item" href="portfolio-item.html">Team calendar</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next={% url 'home:home' %}">Logout</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next={% url 'home:boat_shed' %}">Logout</a></li>
                 {% else %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownLogin" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Login</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownLogin">
-                        <li><a class="dropdown-item" href="{% url 'login' %}?next={% url 'coach:home' %}">Login</a></li>
-                        <li><a class="dropdown-item" href="#">Signup</a></li>
+                        <li><a class="dropdown-item" href=" {% url 'login' %}?next={% url 'athletes:coach'%}">Login</a></li>
+                        <li><a class="dropdown-item" href="{% url 'signup' %}">Signup</a></li>
                     </ul>
                 </li>
 

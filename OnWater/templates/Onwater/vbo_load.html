@@ -1,0 +1,7 @@
+{% block content %}
+{% load plotly_dash %}
+<div class="{% plotly_class name='vbo_load' %} card" style="height: 100%; width: 100%">
+    {% plotly_app name='vbo_load' ratio=0.65 %}
+</div>
+
+{% endblock %}

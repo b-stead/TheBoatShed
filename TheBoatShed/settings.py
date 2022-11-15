@@ -40,17 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+
+    'home.apps.HomeConfig',
+    'blog.apps.BlogConfig',
+    'OnWater.apps.OnwaterConfig',
+    'profiles.apps.ProfilesConfig',
+    'athletes.apps.AthletesConfig',
+    'uploader.apps.UploaderConfig',
+    #'vbox.apps.VboxConfig',
+    'demo.apps.DemoConfig',
+
     'crispy_forms',
     'django_extensions',
     'social_django',
     'channels',
     'channels_redis',
-
-    'home.apps.HomeConfig',
-    'users.apps.UsersConfig',
-    'blog.apps.BlogConfig',
-    'coach.apps.CoachConfig',
-    'vbox.apps.VboxConfig',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -156,7 +161,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'TheBoatShed/static')
 ]
 
-AUTH_USER_MODEL = 'coach.User'
+AUTH_USER_MODEL = 'profiles.User'
 
 
 REST_FRAMEWORK = {
@@ -199,7 +204,7 @@ LOGOUT_URL = 'logout'
 
 LOGOUT_REDIRECT_URL = 'home:home'
 
-LOGIN_REDIRECT_URL = 'coach:home'
+LOGIN_REDIRECT_URL = 'home:home'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

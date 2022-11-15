@@ -14,7 +14,7 @@ from django.views.generic import TemplateView, View
 # Create your views here.
 #Extra pieces to account for different configurations
 
-class HomeView(View):
+class ShedView(View):
     def get(self, request):
         print(request.get_host())
         host = request.get_host()
@@ -25,8 +25,13 @@ class HomeView(View):
         }
         return render(request, 'index.html', context)
 
-def home(requests):
-    return render(requests, 'index.html')
+def home(request):
+    if request.user.is_authenticated:
+        if request.user.is_coach:
+            return redirect('athletes:coach')
+        else:
+            return redirect('athletes:athlete')
+    return render(request, 'index.html')
 
 class LoginView(TemplateView):
 
@@ -44,4 +49,5 @@ class ContactView(TemplateView):
  
     template_name = 'contact.html' 
      
+
 

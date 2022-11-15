@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends 'coach_menu.html' %}
+
+
+    {% block content %}
+    {% load plotly_dash %}
+<h1>Metrics Page</h1>
+
+    <div class="{% plotly_class name='Metrics' %} card" style="height: 100%; width: 100%">
+    {% plotly_app name='Metrics' ratio=0.45 %}
+    </div>
+<br>
+    
+
+{% endblock %}

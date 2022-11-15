@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% extends "menu.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Sign Up a {{ user.type }}</h1>
+                    <p class="lead fw-normal text-white-50 mb-4">Already registered? Go ahead and Login</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start text-white-50 mb-4">
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                            {{ form|crispy }}
+
+                            <button type="submit" class="btn btn-success">Sign up</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="{% static '/images/FILE0085.jpeg' %} " alt="Home image" /></div>
+        </div>
+    </div>
+</header>
+
+{% endblock %}

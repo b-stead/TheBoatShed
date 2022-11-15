@@ -1,0 +1,48 @@
+{% extends 'demo_base.html' %}
+<!DOCTYPE html>
+{% block content %}
+{% block title %}{{ settings.APP_NAME }}{% endblock %}
+
+<h1>Team Demo Site</h1>
+
+<div style="float:right">
+<!-- https://www.w3schools.com/howto/howto_css_search_button.asp -->
+<form>
+  <input type="text" placeholder="Search.." name="search"
+  {% if search %} value="{{ search }}" {% endif %}
+  >
+  <button type="submit"><i class="fa fa-search"></i></button>
+<a href="{% url 'demo:team_all' %}"><i class="fa fa-undo"></i></a>
+</form>
+</div>
+
+<p>
+<p>
+{% if team_list %}
+<ul>
+  {% for team in team_list %}
+    <li>
+        <a href="{% url 'demo:team_detail'  team.id %}">{{ team.name }}</a>
+
+        (<a href="{% url 'demo:team_update' team.id %}">Edit</a> |
+        <a href="{% url 'demo:team_delete' team.id %}">Delete</a>)
+
+
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+  <p>There are no teams in the database.</p>
+{% endif %}
+<div>
+  <li>
+    <p><a href="{% url 'demo:team_create' %}">Add a team</a></p>
+<p>
+  <a href="{% url 'demo:team_all' %}">Back to teams</a>
+</p>
+  </li>
+</div>
+
+
+
+{% endblock %}

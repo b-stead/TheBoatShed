@@ -21,19 +21,20 @@ from django.conf.urls.static import static
 from django.urls import include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
-from coach.pages import athletes, coaches, squads
-
+from profiles.views import AthleteSignUpView, CoachSignUpView, SignUpView
 urlpatterns = [
     path('home/', include('home.urls')), #home page
     path('blog/', include('blog.urls')),
-    path('coach/', include('coach.urls')),
-    path('vbox/', include('vbox.urls')),
-    path('users/', include('users.urls')),
+    path('athletes/', include('athletes.urls')),
+    path('uploader', include('uploader.urls')),
+    path('demo/', include('demo.urls')),
+    #path('vbox/', include('vbox.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
-    path('accounts/signup/', squads.SignUpView.as_view(), name='signup'),
-    path('accounts/signup/student/', athletes.AthleteSignUpView.as_view(), name='athlete_signup'),
-    path('accounts/signup/coach/', coaches.CoachSignUpView.as_view(), name='coach_signup'),
+    path('accounts/signup/', SignUpView.as_view(), name='signup'),
+    path('accounts/signup/athlete/', AthleteSignUpView.as_view(), name='athlete_signup'),
+    path('accounts/signup/coach/', CoachSignUpView.as_view(), name='coach_signup'),
+    path('django_plotly_dash/', include('django_plotly_dash.urls')),
 
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 

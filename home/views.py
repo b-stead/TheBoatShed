@@ -14,6 +14,14 @@ from django.views.generic import TemplateView, View
 # Create your views here.
 #Extra pieces to account for different configurations
 
+def error_404(request, exception):
+        data = {}
+        return render(request,'404.html', data)
+
+def error_500(request):
+        data = {}
+        return render(request,'500.html', data)
+
 class ShedView(View):
     def get(self, request):
         print(request.get_host())

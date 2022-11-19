@@ -38,6 +38,7 @@ class Team(models.Model):
 
 class Athlete(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    first_name = models.CharField(max_length = 20, verbose_name= "first name")
     date_of_birth = models.DateField(null=True)
     team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
 

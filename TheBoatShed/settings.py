@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'OnWater.apps.OnwaterConfig',
     'profiles.apps.ProfilesConfig',
     'athletes.apps.AthletesConfig',
-    'uploader.apps.UploaderConfig',
+    #'uploader.apps.UploaderConfig',
     #'vbox.apps.VboxConfig',
     'demo.apps.DemoConfig',
 

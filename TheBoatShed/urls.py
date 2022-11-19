@@ -22,11 +22,14 @@ from django.urls import include, re_path
 from django.contrib.auth import views as auth_views
 from django.views.static import serve
 from profiles.views import AthleteSignUpView, CoachSignUpView, SignUpView
+from django.conf.urls import handler404, handler500
+from home import views as error_views
+
 urlpatterns = [
     path('home/', include('home.urls')), #home page
     path('blog/', include('blog.urls')),
     path('athletes/', include('athletes.urls')),
-    path('uploader', include('uploader.urls')),
+    #path('uploader', include('uploader.urls')),
     path('demo/', include('demo.urls')),
     #path('vbox/', include('vbox.urls')),
     path('admin/', admin.site.urls),
@@ -50,7 +53,8 @@ urlpatterns += [
         }
     ),
 ]
-
+handler404 = error_views.error_404
+handler500 = error_views.error_500
 
 # Switch to social login if it is configured - Keep for later
 

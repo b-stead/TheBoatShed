@@ -38,7 +38,8 @@
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Team Management:</h6>
           <a class="collapse-item" href=" {% url 'demo:team_all' %}">Squad</a>
-          <a class="collapse-item" href="athlete_list.html">Athletes</a>
+          <a class="collapse-item" href=" {% url 'demo:all_athletes' %}">Athletes</a>
+          <a class="collapse-item" href=" {% url 'demo:all_coaches' %}">Coaches</a>
         </div>
       </div>
     </li>

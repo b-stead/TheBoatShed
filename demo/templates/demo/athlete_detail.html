@@ -1,0 +1,20 @@
+{% extends 'demo_base.html' %}
+<!DOCTYPE html>
+
+    {% load crispy_forms_tags %}
+    {% block content %}
+    <!-- Page content-->
+    <h1>{{ athlete.name }}</h1>
+
+    <p>
+    {{ athlete.date_of_birth }} .  |
+    </p>
+    <p>
+        {{athlete.team}}
+    </p>
+    <p>
+
+    <p>
+    </p>
+
+    {% endblock %}

@@ -1,27 +1,35 @@
 from django.contrib import admin
 
 # Register your models here.
-from . models import User, Athlete
+from . models import User, Athlete, Coach
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-class ProfileInline(admin.StackedInline):
-    model = Athlete
-    can_delete = False
-    verbose_name_plural = 'Athlete'
-    fk_name = 'user'
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from .models import User
+from django.forms import TextInput, Textarea
 
-class CustomUserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_coach', 'is_athlete')
-    fieldsets = UserAdmin.fieldsets + (
-        ('Custom Fields', {
-            'fields': ('is_athlete', 'is_coach')
-        }),
+class UserAdminConfig(UserAdmin):
+    search_fields = ('email', 'user_name', 'first_name',)
+    ordering = ('-start_date',)
+    list_display = ('email', 'user_name', 'first_name',
+                        'is_active', 'is_staff', 'is_coach', 'is_athlete', 'is_superuser')
+
+    fieldsets = (
+        (None, {'fields': ('email', 'user_name', 'first_name',)}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_coach', 'is_athlete', 'is_superuser')}),
+        ('Personal', {'fields': ('about',)}),
     )
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return list()
-        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
-
-admin.site.register(User, CustomUserAdmin)
+    formfield_overrides = {
+        User.about: {'widget': Textarea(attrs={'rows': 10, 'cols': 40})},
+    }
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'user_name', 'first_name', 'password1', 'password2', 'is_active', 'is_staff', 'is_coach', 'is_athlete')}
+         ),
+    )
+admin.site.register(User, UserAdminConfig)
+admin.site.register(Athlete)
+admin.site.register(Coach)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     {% extends 'coach_menu.html' %}
-
+    {% load crispy_forms_tags %}
 
     {% block content %}
     <!-- Page content-->
@@ -10,12 +10,12 @@
             <!-- Contact form-->
             <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                 <div class="text-center mb-5">
-                    <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                    <h1 class="fw-bolder"> Athlete Home - Session List</h1>
-                    <p class="lead fw-normal text-muted mb-0">#</p>
+                    <div class="feature bg-primary bg-gradient text-black rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                    <h1 class="fw-bolder text-black"> Athlete Home - Session List</h1>
+                    <p class="lead fw-normal text-muted mb-0 text-black">#</p>
                 </div>
-                <div class="row gx-5 justify-content-center">
-                    <h2>####### </h2>
+                <div class="row gx-5 justify-content-center text-black">
+                    <h2>Session List </h2>
 
                     <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}

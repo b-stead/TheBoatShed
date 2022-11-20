@@ -26,17 +26,25 @@ from django.conf.urls import handler404, handler500
 from home import views as error_views
 
 urlpatterns = [
-    path('home/', include('home.urls')), #home page
+    path('', include('home.urls')), #home page
     path('blog/', include('blog.urls')),
     path('athletes/', include('athletes.urls')),
+    path('profiles/', include('profiles.urls')),
     #path('uploader', include('uploader.urls')),
     path('demo/', include('demo.urls')),
     #path('vbox/', include('vbox.urls')),
+
     path('admin/', admin.site.urls),
+
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='profiles/password/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name="profiles/password/password_reset_confirm.html"), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='profiles/password/password_reset_complete.html'), name='password_reset_complete'),
+
     path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('accounts/signup/athlete/', AthleteSignUpView.as_view(), name='athlete_signup'),
     path('accounts/signup/coach/', CoachSignUpView.as_view(), name='coach_signup'),
+
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
 
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),

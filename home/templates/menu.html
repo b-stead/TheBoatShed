@@ -8,7 +8,7 @@
     <div ng-include="'_sidebar.html'"></div>
     <div class="container px-5">
         {% url 'home' as home %}
-        <a class="navbar-brand" href="{% url 'home:home' %}">TheBoatShed</a>
+        <a class="navbar-brand" href="{% url 'home:boat_shed' %}">TheBoatShed</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -37,7 +37,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownLogin" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Login</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownLogin">
-                        <li><a class="dropdown-item" href=" {% url 'login' %}?next={% url 'athletes:coach'%}">Login</a></li>
+                        <li><a class="dropdown-item" href=" {% url 'login' %}?next={% url 'home:home'%}">Login</a></li>
                         <li><a class="dropdown-item" href="{% url 'signup' %}">Signup</a></li>
                     </ul>
                 </li>

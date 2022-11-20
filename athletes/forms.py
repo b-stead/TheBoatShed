@@ -1,9 +1,8 @@
 from dataclasses import fields
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
-from django.forms.utils import ValidationError
 from django import forms
-from .models import Athlete, Session, Effort, Team
+from .models import Athlete, Session, Effort
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth.models import User
 
@@ -35,6 +34,7 @@ class AthleteSignUpForm(UserCreationForm):
 class CoachSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
+        fields = ('email', 'username', 'first_name')
 
     def save(self, commit=True):
         user = super().save(commit=False)

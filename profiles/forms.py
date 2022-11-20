@@ -1,14 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import User, Team
+from .models import User, Coach
 # Create your forms here.
 
 class CoachSignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
     class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2", "is_coach")
+        model = Coach
+        fields = ("email",'user_name',"password1", "password2", "is_coach")
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -23,18 +23,13 @@ class AthleteSignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "email", "password1", "password2", "is_athlete")
+        fields = ("email",'user_name', "password1", "password2", "is_athlete")
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.is_athlete = True
-        if commit:
-            user.save()
-        return user
-
-
-class TeamCreateForm(forms.ModelForm):
-    class Meta:
-        model  = Team
-        fields = '__all__' 
+        def save(self, commit=True):
+            user = super().save(commit=False)
+            user.email = self.cleaned_data['email']
+            user.username = self.cleaned_data['username']
+            user.is_athlete = True
+            if commit:
+                user.save()
+            return user

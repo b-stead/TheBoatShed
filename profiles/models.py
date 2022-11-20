@@ -1,56 +1,150 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinLengthValidator
+from django.utils import timezone
+from django.contrib.auth.models import PermissionsMixin
 # Create your models here.
 
-class User(AbstractUser):
+class CustomAccountManager(BaseUserManager):
+
+    def create_superuser(self, email, user_name, first_name, password, **other_fields):
+
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_active', True)
+        other_fields.setdefault('is_admin', True)
+
+
+        if other_fields.get('is_staff') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_staff=True.')
+        if other_fields.get('is_superuser') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_superuser=True.')
+
+        return self.create_user(email, user_name, first_name, password, **other_fields)
+
+    def create_user(self, email, user_name, first_name, password, **other_fields):
+
+        if not email:
+            raise ValueError(_('You must provide an email address'))
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, user_name=user_name,
+                          first_name=first_name, **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+class User(AbstractBaseUser, PermissionsMixin):
+    class Role(models.TextChoices):
+        ADMIN = "ADMIN", 'Admin'
+        COACH = "COACH", 'Coach'
+        ATHLETE = "ATHLETE", 'Athlete'
+
+    type = models.CharField(max_length = 8 , choices = Role.choices , 
+                            # Default is user is coach
+                            default = Role.COACH)
+
+
+    email = models.EmailField(_('email address'), unique=True)
+    user_name = models.CharField(max_length=150)
+    first_name = models.CharField(_('first name'), max_length=30, blank=True)
+    last_name = models.CharField(_('last name'), max_length=30, blank=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    about = models.TextField(_(
+        'about'), max_length=500, blank=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_athlete = models.BooleanField(default=False)
-    is_coach= models.BooleanField(default=False)
-    is_admin= models.BooleanField(default=False)
+    is_coach= models.BooleanField(default=False) 
+    objects = CustomAccountManager()
 
-class Coach(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    date_of_birth = models.DateField(null=True)
-    def __str__(self):
-        return self.username
-@receiver(post_save, sender=User)
-def create_coach_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Coach.objects.create(user=instance)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['user_name']
 
-@receiver(post_save, sender=User)
-def save_coach_profile(sender, instance, **kwargs):
-    instance.coach.save()
-    
-
-class Team(models.Model):
-    coach = models.ManyToManyField(Coach)
-    name = models.CharField(
-            max_length=200,
-            validators=[MinLengthValidator(2, "Title must be greater than 2 characters")]
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-class Athlete(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    first_name = models.CharField(max_length = 20, verbose_name= "first name")
-    date_of_birth = models.DateField(null=True)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
+    class Meta:
+        verbose_name = _('user')
+        verbose_name_plural = _('users')
 
     def __str__(self):
-        return self.username
+        return self.user_name
 
-@receiver(post_save, sender=User)
-def create_athlete_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Athlete.objects.create(user=instance)
+    def __str__(self):
+        return str(self.email)
+      
+    def has_perm(self , perm, obj = None):
+        return self.is_admin
+      
+    def has_module_perms(self , app_label):
+        return True
+      
+    def save(self , *args , **kwargs):
+        if not self.type or self.type == None : 
+            self.type = User.Role.COACH
+        return super().save(*args , **kwargs)
 
-@receiver(post_save, sender=User)
-def save_coach_profile(sender, instance, **kwargs):
-    instance.athlete.save()
+class AthleteManager(models.Manager):
+    def create_user(self, email, username, password = None):
+        if not email or len(email) <= 0 : 
+            raise  ValueError("Email field is required !")
+        if not password :
+            raise ValueError("Password is must !")
+        email  = email.lower()
+        user = self.model(
+            email = email
+        )
+        user.user_name(username)
+        user.set_password(password)
+        user.save(using = self._db)
+        return user
 
+    def get_queryset(self , *args,  **kwargs):
+        queryset = super().get_queryset(*args , **kwargs)
+        queryset = queryset.filter(type = User.Role.ATHLETE)
+        return queryset
+
+class Athlete(User):
+    class Meta : 
+        proxy = True
+    objects = AthleteManager()
+      
+    def save(self , *args , **kwargs):
+        self.type = User.Role.ATHLETE
+        self.is_athlete = True
+        return super().save(*args , **kwargs)    
+
+class CoachManager(models.Manager):
+    def create_user(self , email ,username,firstname, password = None):
+        if not email or len(email) <= 0 : 
+            raise  ValueError("Email field is required !")
+        if not password :
+            raise ValueError("Password is must !")
+        email = email.lower()
+        user = self.model(
+            email = email
+        )
+        user.first_name = (firstname)
+        user.user_name(username)
+        user.set_password(password)
+        user.save(using = self._db)
+        return user
+        
+    def get_queryset(self , *args , **kwargs):
+        queryset = super().get_queryset(*args , **kwargs)
+        queryset = queryset.filter(type = User.Role.COACH)
+        return queryset
+
+class Coach(User):
+    class Meta :
+        proxy = True
+    objects = CoachManager()
+      
+    def save(self  , *args , **kwargs):
+        self.type = User.Role.COACH
+        self.is_coach = True
+        return super().save(*args , **kwargs)

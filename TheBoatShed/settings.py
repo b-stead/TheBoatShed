@@ -163,6 +163,7 @@ STATICFILES_DIRS = [
 
 AUTH_USER_MODEL = 'profiles.User'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

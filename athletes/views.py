@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.views.generic import ListView, CreateView, DetailView
 from . import models
-from profiles.models import Athlete, Team, Coach
+from profiles.models import Athlete, Coach
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
@@ -14,9 +14,8 @@ from django.urls import reverse_lazy
 class CoachView(View):
 
     def get(self, request):
-        ath = Athlete.objects.all().count()
-        sq = Team.objects.all()
-        ctx = {'Athlete_count':ath, 'Squad_list':sq}
+        ath = Athlete.objects.all()
+        ctx = {'Athlete_count':ath}
         return render(request, "athletes/coach_home.html", ctx )
 
 @method_decorator([login_required, athlete_required], name='dispatch')

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from profiles.forms import TeamCreateForm
+
 from django.views.generic import View, DetailView
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy, reverse

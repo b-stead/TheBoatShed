@@ -14,14 +14,6 @@ from django.views.generic import TemplateView, View
 # Create your views here.
 #Extra pieces to account for different configurations
 
-def error_404(request, exception):
-        data = {}
-        return render(request,'404.html', data)
-
-def error_500(request):
-        data = {}
-        return render(request,'500.html', data)
-
 class ShedView(View):
     def get(self, request):
         print(request.get_host())
@@ -38,7 +30,7 @@ def home(request):
         if request.user.is_coach:
             return redirect('athletes:coach')
         else:
-            return redirect('athletes:athlete')
+            return redirect('home:home')
     return render(request, 'index.html')
 
 class LoginView(TemplateView):
@@ -58,4 +50,10 @@ class ContactView(TemplateView):
     template_name = 'contact.html' 
      
 
+def error_404(request, exception):
+        data = {}
+        return render(request,'404.html', data)
 
+def error_500(request):
+        data = {}
+        return render(request,'500.html', data)

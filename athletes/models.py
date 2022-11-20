@@ -3,7 +3,7 @@ from datetime import datetime
 from django.core.validators import MinLengthValidator
 from django.conf import settings
 from django.utils import timezone
-from profiles.models import Coach, Team, Athlete
+from profiles.models import Coach, Athlete
 from django.utils.translation import gettext as _
 # Create your models here.
 GENDER = (
@@ -125,9 +125,7 @@ class Session(StandardMetadata):
     crew=models.CharField(max_length=20, validators=[MinLengthValidator(1, "Crew must be greater than 1 character")], null=True)
     session_name=models.CharField(max_length=20, null=True)
     session_date = models.DateTimeField(default=timezone.now)
-    athlete = models.ManyToManyField(Athlete)
-    coach = models.ManyToManyField(Coach)
-    team = models.ManyToManyField(Team)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE, null=True)
     boat = models.ForeignKey(BoatType, on_delete=models.CASCADE, null=True)
     venue = models.ForeignKey(Venue, on_delete=models.CASCADE, null=True)
     conditions = models.CharField(max_length=4, choices=WATER_COND, verbose_name="conditions", blank=True)
@@ -137,7 +135,7 @@ class Session(StandardMetadata):
 
 class Effort(StandardMetadata):
     number = models.PositiveIntegerField(verbose_name="number")
-    session = models.ManyToManyField(Session)
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
     length = models.PositiveIntegerField(verbose_name="Distance(m)")
     time = models.PositiveIntegerField(verbose_name="Time(s)")
 

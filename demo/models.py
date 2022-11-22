@@ -13,6 +13,8 @@ class TeamDemo(models.Model):
             max_length=200,
             validators=[MinLengthValidator(2, "Title must be greater than 2 characters")]
     )
+    athletes = models.ManyToManyField('AthleteDemo', related_name="teams")
+    coaches = models.ManyToManyField('CoachDemo', related_name="teams")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
@@ -21,16 +23,21 @@ class TeamDemo(models.Model):
 
 class CoachDemo(models.Model):
     username = models.CharField(max_length = 20)
-    date_of_birth = models.DateField(null=True)
-    team = models.ForeignKey(TeamDemo, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return self.username
     
 
 class AthleteDemo(models.Model):
+    class Gender(models.TextChoices):
+        MEN = 'MEN', 'Men'
+        WOMEN = 'WOMEN', 'Women'
+    gender = models.CharField(max_length=5, choices= Gender.choices,
+        default=Gender.MEN)
+
     username = models.CharField(max_length = 20)
     date_of_birth = models.DateField(null=True)
-    team = models.ForeignKey(TeamDemo, on_delete=models.CASCADE, null=True)
+    coach = models.ForeignKey(CoachDemo, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.username

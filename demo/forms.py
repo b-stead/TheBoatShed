@@ -18,9 +18,7 @@ class CoachDemoForm(forms.ModelForm):
     class Meta:
         model = CoachDemo
         fields = '__all__'
-        widgets = {
-            'date_of_birth': DateInput()
-        }
+
 
 class AthleteDemoForm(forms.ModelForm):
     class Meta:

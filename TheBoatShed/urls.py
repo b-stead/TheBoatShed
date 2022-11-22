@@ -33,6 +33,7 @@ urlpatterns = [
     #path('uploader', include('uploader.urls')),
     path('demo/', include('demo.urls')),
     #path('vbox/', include('vbox.urls')),
+    path('forum/', include('forum.urls')),
 
     path('admin/', admin.site.urls),
 
@@ -46,6 +47,8 @@ urlpatterns = [
     path('accounts/signup/coach/', CoachSignUpView.as_view(), name='coach_signup'),
 
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
+    path('tinymce/', include('tinymce.urls')),
+    path('hitcount/', include('hitcount.urls', namespace='hitcount')),
 
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
 

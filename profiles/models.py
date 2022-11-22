@@ -16,7 +16,7 @@ class CustomAccountManager(BaseUserManager):
         other_fields.setdefault('is_superuser', True)
         other_fields.setdefault('is_active', True)
         other_fields.setdefault('is_admin', True)
-
+        first_name = first_name
 
         if other_fields.get('is_staff') is not True:
             raise ValueError(
@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['user_name']
+    REQUIRED_FIELDS = ['user_name', 'first_name']
 
     class Meta:
         verbose_name = _('user')
@@ -73,6 +73,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_name
+
+    def __str__(self):
+        return self.first_name    
 
     def __str__(self):
         return str(self.email)

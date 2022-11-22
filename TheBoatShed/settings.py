@@ -50,12 +50,17 @@ INSTALLED_APPS = [
     #'uploader.apps.UploaderConfig',
     #'vbox.apps.VboxConfig',
     'demo.apps.DemoConfig',
+    'forum.apps.ForumConfig',
 
     'crispy_forms',
     'django_extensions',
     'social_django',
     'channels',
     'channels_redis',
+    'tinymce',
+    'hitcount',
+    'taggit',
+    #'register',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

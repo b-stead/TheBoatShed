@@ -1,9 +1,13 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
-from django.shortcuts import redirect, render
+from django.contrib import messages
 from django.utils.decorators import method_decorator
-from django.views.generic import (CreateView, TemplateView)
+from django.db.models import Count
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, TemplateView, View
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -15,6 +19,11 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from .forms import CoachSignUpForm, AthleteSignUpForm, UpdateProfileForm
 from .models import Coach, Athlete, User
+
+def profiles_test(request):
+    template_name = 'profiles/test.html'
+    context = {}
+    return render(request, template_name, context)
 
 
 class SignUpView(TemplateView):
@@ -88,6 +97,35 @@ def password_reset_request(request):
 	password_reset_form = PasswordResetForm()
 	return render(request=request, template_name="profiles/password/password_reset.html", context={"password_reset_form":password_reset_form})
 
+
+class ProfileUpdateView(LoginRequiredMixin, View):
+    model = User
+    template_name = 'profiles/update.html'
+    success_url = reverse_lazy('home:home')
+    
+    def get(self, request, pk):
+        user = get_object_or_404(User, id=pk)
+        form = UpdateProfileForm(instance=user)
+        context = {'form': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, pk):
+        user = get_object_or_404(User, id=pk)
+        form = UpdateProfileForm(request.POST, request.FILES or None, instance=user)
+
+        if not form.is_valid():
+            context = {'form': form}
+            return render(request, self.template_name, context)
+            #redirect(reverse('profile', kwargs={"username": request.user}))
+
+        user = form.save(commit=False)
+        user.save()
+        form.save_m2m()
+        return redirect(self.success_url)
+
+
+
+"""
 @login_required
 def update_profile(request):
     context = {}
@@ -105,3 +143,4 @@ def update_profile(request):
         "title": "Update Profile",
     })
     return render(request, "profiles/update.html", context)
+"""

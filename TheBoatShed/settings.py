@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'tinymce',
     'hitcount',
     'taggit',
+    'django_fastdev',
     #'register',
 ]
 

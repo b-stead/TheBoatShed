@@ -1,24 +1,19 @@
 from django.db import models
 from django.utils.text import slugify
-
-from django_resized import ResizedImageField
-from tinymce.models import HTMLField
 from hitcount.models import HitCountMixin, HitCount
 from django.contrib.contenttypes.fields import GenericRelation
 from taggit.managers import TaggableManager
 from django.shortcuts import reverse
 from profiles.models import User
+from tinymce.models import HTMLField
 
 class Author(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    fullname = models.CharField(max_length=40, blank=True)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
-    bio = HTMLField()
     points = models.IntegerField(default=0)
-    profile_pic = ResizedImageField(size=[50, 80], quality=100, upload_to="authors", default=None, null=True, blank=True)
 
     def __str__(self):
-        return self.fullname
+        return self.user.user_name
 
     @property
     def num_posts(self):
@@ -27,7 +22,7 @@ class Author(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.fullname)
+            self.slug = slugify(self.user.user_name)
         super(Author, self).save(*args, **kwargs)
 
 class Category(models.Model):
@@ -81,7 +76,7 @@ class Comment(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=400)
     slug = models.SlugField(max_length=400, unique=True, blank=True)
-    user = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     content = HTMLField()
     categories = models.ManyToManyField(Category)
     date = models.DateTimeField(auto_now_add=True)

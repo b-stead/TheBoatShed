@@ -19,10 +19,10 @@ class UserAdminConfig(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'user_name', 'first_name',)}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'is_coach', 'is_athlete', 'is_superuser')}),
-        ('Personal', {'fields': ('about',)}),
+        ('Personal', {'fields': ('bio','profile_pic')}),
     )
     formfield_overrides = {
-        User.about: {'widget': Textarea(attrs={'rows': 10, 'cols': 40})},
+        User.bio: {'widget': Textarea(attrs={'rows': 10, 'cols': 40})},
     }
     add_fieldsets = (
         (None, {

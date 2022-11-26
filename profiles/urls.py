@@ -5,5 +5,6 @@ app_name = "profiles"
 
 
 urlpatterns = [
-    path("password_reset", views.password_reset_request, name="password_reset"),
+    path("password_reset/", views.password_reset_request, name="password_reset"),
+    path("profile_update/", views.update_profile, name="profile_update"),
 ]

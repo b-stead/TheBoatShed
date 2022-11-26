@@ -1,11 +1,14 @@
 {%  extends 'demo_base.html' %}
 {% load static %}
 {% block content %}
-    {% load plotly_dash %}
-   <div class="{% plotly_class name='BenchDash' %} card" style="height: 100%; width: 100%">
-    {% plotly_app name='BenchDash' ratio=0.45 %}
-    </div>
-<br>
-    {{ plot | safe }}
+<nav class="navbar navbar-expand bg-dark  mb-4 static-top shadow">
+    <button class="btn btn-link d-md-none rounded-circle mr-3">
+        <p> new navbar </p>
+      </button>
+</nav>
+<h1 style="color:rgb(23, 24, 30);">
+    NewHome
+
+</h1>
 
 {% endblock %}

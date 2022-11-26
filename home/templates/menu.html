@@ -24,12 +24,28 @@
                         <li><a class="dropdown-item" href="##">Blog Post</a></li>
                     </ul>
                 </li>
+                <li class="nav-item dropdown">    
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" data-bs-toggle="dropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Forum</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                        <li><a class="dropdown-item" href="{% url 'forum:forums' %}">Forum Home</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a class="dropdown-item" href="{% url 'forum:create_post' %}">New Topic</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMyTeam" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Team</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMyTeam">
                         <li><a class="dropdown-item" href="{% url 'athletes:coach' %}">Coach Home</a></li>
                         <li><a class="dropdown-item" href="portfolio-item.html">Team calendar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownProfile" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMyTeam">
+                        <li><a class="dropdown-item" href="{% url 'profiles:profile_update' %}">Update Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My Profile</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}?next={% url 'home:boat_shed' %}">Logout</a></li>

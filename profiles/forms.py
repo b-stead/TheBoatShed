@@ -33,3 +33,9 @@ class AthleteSignUpForm(UserCreationForm):
             if commit:
                 user.save()
             return user
+
+class UpdateProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "bio", "profile_pic")

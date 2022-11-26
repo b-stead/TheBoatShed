@@ -4,17 +4,26 @@
     {% load crispy_forms_tags %}
     {% block content %}
     <!-- Page content-->
-    <h1>{{ athlete.name }}</h1>
+    <section>
 
-    <p>
-    {{ athlete.date_of_birth }} .  |
-    </p>
-    <p>
-        {{athlete.team}}
-    </p>
-    <p>
+        <div class="container px-5 my-5" >
+            <h1 style="width: 1000px">{{ athlete.username }}</h1>
+        </div>
+    </section>
+    <section>
+        <div class="container px-5 my-5">
+            <ul>
+                <li>Coach - {{athlete.coach}}  </li>
+                <li>D.O.B - {{ athlete.date_of_birth }} </li>
+                <li>Team -  
 
-    <p>
-    </p>
+
+            </ul>
+
+        </div>
+
+    </section>
+    
+
 
     {% endblock %}

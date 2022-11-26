@@ -50,12 +50,17 @@ INSTALLED_APPS = [
     #'uploader.apps.UploaderConfig',
     #'vbox.apps.VboxConfig',
     'demo.apps.DemoConfig',
+    'forum.apps.ForumConfig',
 
     'crispy_forms',
     'django_extensions',
     'social_django',
     'channels',
     'channels_redis',
+    'tinymce',
+    'hitcount',
+    'taggit',
+    #'register',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -64,8 +69,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 

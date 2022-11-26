@@ -147,6 +147,9 @@ class Metrics(StandardMetadata):
     value = models.FloatField()
     score = models.PositiveIntegerField(blank=True)
 
+    class Meta:
+        verbose_name_plural = "metrics"
+        
     def __str__(self):
         return f"{self.metric}"
 

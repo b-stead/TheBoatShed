@@ -52,7 +52,7 @@
         <span><u>{{num_posts}}</u> Posts in <u>{{num_categories}}</u> Categories by <u>{{num_users}}</u> Members.</span><br>
         {% if forums %}
             <span>Latest post: <b><a href="{{last_post.get_url}}">{{last_post.title}}</a></b> on {{last_post.date|date}} By <a href="">{{last_post.user.fullname|title}}</a></span>.<br>
-            <span>Check <a href="{% url 'latest_posts' %}">the latest posts</a> .</span><br>
+            <span>Check <a href="{% url 'forum:latest_posts' %}">the latest posts</a> .</span><br>
         {% endif %}
     </div>
 

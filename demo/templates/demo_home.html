@@ -1,14 +1,78 @@
-{%  extends 'demo_base.html' %}
+{%  extends 'menu.html' %}
 {% load static %}
+<head>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+</head>
 {% block content %}
 <nav class="navbar navbar-expand bg-dark  mb-4 static-top shadow">
     <button class="btn btn-link d-md-none rounded-circle mr-3">
         <p> new navbar </p>
       </button>
 </nav>
-<h1 style="color:rgb(23, 24, 30);">
-    NewHome
+<section class="py-5">
+    <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h2 class="fw-bolder">Demo Site Home</h2>
+                    <p class="lead fw-normal text-muted mb-5">Have a look at some of the functionality and what it can do for you.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="{% static 'images/sunburst.png' %} "/>
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Teams</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Team Management</h5></a>
+                        <p class="card-text mb-0">Manage your teams here. Keep track of your athlete and coach profiles
 
-</h1>
+                        </p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="{% static 'images/dataplot.png' %} "  />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Data Services</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">Track and monitor athletes and your key metrics here</h5></a>
+                        <p class="card-text mb-0">Use the stock data options or edit to have your own.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <img class="card-img-top" src="https://dummyimage.com/600x350/6c757d/343a40" alt="..." />
+                    <div class="card-body p-4">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                        <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">The last blog post title is a little bit longer than the others</h5></a>
+                        <p class="card-text mb-0">Some more quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                                <div class="small">
+                                    <div class="fw-bold">Evelyn Martinez</div>
+                                    <div class="text-muted">April 2, 2022 &middot; 10 min read</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}
+

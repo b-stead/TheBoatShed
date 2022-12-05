@@ -1,7 +1,8 @@
-{% extends 'demo_base.html' %}
+{% extends 'menu.html' %}
+{% load static %}
 <!DOCTYPE html>
 {% block content %}
-{% block title %}{{ settings.APP_NAME }}{% endblock %}
+
 <section class="py-5" id="features">
   <div class="container px-5 my-5">
       <div class="row gx-5">
@@ -27,12 +28,9 @@
         </div>
             
             <div>
-              <li>
-                <p><a href="{% url 'demo:team_create' %}">Add a team</a></p>
-                <p>
-                    <a href="{% url 'demo:team_all' %}">Back to teams</a>
-                </p>
-              </li>
+              <li><p><a href="{% url 'demo:team_create' %}">Add a team  </a><i class="bi bi-people-fill"></i></p></li>
+              <li><p><a href="{% url 'demo:demo_home' %}">Demo Home </a> <i class="bi bi-house"></i></li></p>
+              
             </div>
           </div>
       </div>

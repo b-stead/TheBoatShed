@@ -19,9 +19,9 @@
             <div class="table-row">
                 <div class="status"><i class="fa fa-fire"></i></div>
                 <div class="subjects">
-                    <a href="{{post.get_url}}">{{post.title}}</a>
+                    <a href="{% url 'forum:detail' post.slug %} ">{{post.title}}</a>
                     <br>
-                    <span>Started by <b><a href="">{{post.user.fullname|title}}</a></b> .</span>
+                    <span>Started by <b><a href="">{{post.author.user.user_name}}</a></b> .</span>
                 </div>
                 <div class="replies">
                     {{post.num_comments}} comments <br> {% get_hit_count for post %} views

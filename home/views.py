@@ -30,7 +30,7 @@ def home(request):
         if request.user.is_coach:
             return redirect('athletes:coach')
         else:
-            return redirect('home:home')
+            return render(request, 'index.html')
     return render(request, 'index.html')
 
 class LoginView(TemplateView):

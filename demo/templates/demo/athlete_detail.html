@@ -7,15 +7,17 @@
     <section>
 
         <div class="container px-5 my-5" >
-            <h1 style="width: 1000px">{{ athlete.username }}</h1>
+            <h1 style="width: 1000px">{{ athletedemo.name }}</h1>
         </div>
     </section>
     <section>
         <div class="container px-5 my-5">
             <ul>
-                <li>Coach - {{athlete.coach}}  </li>
-                <li>D.O.B - {{ athlete.date_of_birth }} </li>
-                <li>Team -  
+                <li>Coach - {{athletedemo.coach}}  </li>
+                <li>D.O.B - {{ athletedemo.date_of_birth }} </li>
+                <li>Team -  {{ athletedemo.squad }} </li>
+                <li>Club - {{ athletedemo.club }}</li>
+                <li>Bio - {{ athletedemo.bio }} </li>
 
 
             </ul>

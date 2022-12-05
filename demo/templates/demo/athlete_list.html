@@ -22,7 +22,7 @@
 <ul>
   {% for athlete in athlete_list %}
     <li>
-        <a href="{% url 'demo:athlete_detail' athlete.id %}">{{ athlete.username }}</a>
+        <a href="{% url 'demo:athlete_detail' athlete.id %}">{{ athletedemo.name }}</a>
 
         (<a href="{% url 'demo:athlete_update' athlete.id %}">Edit</a> |
         <a href="{% url 'demo:athlete_delete' athlete.id %}">Delete</a>)

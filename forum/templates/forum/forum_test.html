@@ -1,0 +1,22 @@
+{% extends 'menu.html' %}
+{% load static %}
+{% load hitcount_tags %}
+{% block content %}
+<p>forum test </p>
+
+<div class="container">
+    <!--Navigation-->
+    <div class="navigate">
+        <span><a href="{% url 'forum:forums' %}">MyForum - Forums</a> >> <a href="#"></a> >> <a href="{% url 'forum:detail' post.slug %}">{{post.title}}</a></span>
+    </div>
+
+    <!--Topic Section-->
+    <div class="topic-container">
+        <!--Original thread-->
+        <div class="head">
+            <div class="authors">Author</div>
+            <div class="content">Topic: {{post.title}} (Read {% get_hit_count for post %} Times)</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

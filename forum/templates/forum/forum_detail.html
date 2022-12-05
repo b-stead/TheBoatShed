@@ -6,7 +6,7 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span><a href="{% url 'forums' %}">MyForum - Forums</a> >> <a href="{{post.categories.all.0.get_url}}">{{post.categories.all.0}}</a> >> <a href="{{post.get_url}}">{{post.title}}</a></span>
+            <span><a href="{% url 'forum:forums' %}">MyForum - Forums</a> >> <a href="{% url 'forum:posts' post.categories.latest %}">{{post.categories.all.0}}</a> >> <a href="{{post.get_url}}">{{post.title}}</a></span>
         </div>
 
         <!--Topic Section-->
@@ -19,17 +19,17 @@
 
             <div class="body">
                 <div class="authors">
-                    <div class="username"><a href="">{{post.user.fullname|title}}</a></div>
+                    <div class="username"><a href="">{{post.author.user.user_name}}</a></div>
                     <div>Role</div>
-                    {% if post.author.author.profile_pic %}
-                    <img src="{{post.user.profile_pic.url}}" alt="">
+                    {% if post.author.user.profile_pic %}
+                    <img src="{{post.author.user.profile_pic.url}}" alt="">
 
                     {% else %}
                     <img src="{% static 'forum/images/blank-profile.jpg' %} " alt="">
 
                     {% endif %}
-                    <div>Posts: <u>{{post.user.num_posts}}</u></div>
-                    <div>Points: <u>{{post.user.points}}</u></div>
+                    <div>Posts: <u>{{post.author.user.num_posts}}</u></div>
+                    <div>Points: <u>{{post.author.user.points}}</u></div>
                 </div>
                 <div class="content">
                     {{post.content|safe}}
@@ -67,18 +67,18 @@
         <div class="comments-container">
             <div class="body">
                 <div class="authors">
-                    <div class="username"><a href="">{{comment.user.fullname|title}}</a></div>
+                    <div class="username"><a href="">{{comment.author.user.user_name}}</a></div>
                     <div>Role</div>
-                    {% if post.author.author.profile_pic %}
-                    <img src="{{post.user.profile_pic.url}}" alt="">
+                    {% if post.author.user.profile_pic %}
+                    <img src="{{post.author.user.profile_pic.url}}" alt="">
 
                     {% else %}
                     <img src="{% static 'forum/images/blank-profile.jpg' %} " alt="">
 
                     {% endif %}
                     
-                    <div>Posts: <u>{{comment.user.num_posts}}</u></div>
-                    <div>Points: <u>{{comment.user.points}}</u></div>
+                    <div>Posts: <u>{{comment.author.user.num_posts}}</u></div>
+                    <div>Points: <u>{{comment.author.user.points}}</u></div>
                 </div>
                 <div class="content">
                     {{comment.content}}
@@ -106,11 +106,11 @@
         <div class="comments-container" style="width: 95%; margin-left:5%;">
             <div class="body">
                 <div class="authors">
-                    <div class="username"><a href="">{{reply.user.fullname|title}}</a></div>
+                    <div class="username"><a href="">{{reply.author.user.user_name}}</a></div>
                     <div>Role</div>
                     <img src="{{reply.user.profile_pic.url}}" alt="">
-                    <div>Posts: <u>{{reply.user.num_posts}}</u></div>
-                    <div>Points: <u>{{reply.user.points}}</u></div>
+                    <div>Posts: <u>{{reply.author.num_posts}}</u></div>
+                    <div>Points: <u>{{reply.author.points}}</u></div>
                 </div>
                 <div class="content">
                     {{reply.content}}

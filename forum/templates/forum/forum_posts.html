@@ -4,7 +4,7 @@
     <div class="container">
         <!--Navigation-->
         <div class="navigate">
-            <span><a href="{% url 'forums' %}">MyForum - Forums</a> >> <a href="{{forum.get_url}}">{{forum.title}}</a></span>
+            <span><a href="{% url 'forum:forums' %}">MyForum - Forums</a> >> <a href="{% url 'forum:posts' category.title}">{{forum.title}}</a></span>
         </div>
         {% if posts %}
             <!--Display posts table-->
@@ -34,7 +34,7 @@
 
 
                     <div class="subjects">
-                        <a href="{{post.get_url}}">{{post.title}}</a>
+                        <a href="{% url 'forum:detail' post.slug}">{{post.title}}</a>
                         <br>
                         <span>Started by <b><a href="">{{post.user.fullname|title}}</a></b> .</span>
                     </div>
@@ -69,6 +69,7 @@
                     pages: {% for num_page in posts.paginator.page_range %} <a href="?page={{num_page}}">{{num_page}}</a> {% endfor %}
                 </div>
             {% endif %}
+        {% endif %}
         <!--pagination ends-->
     </div>
 

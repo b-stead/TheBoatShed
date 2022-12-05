@@ -13,10 +13,9 @@
                 <div class="my-5 text-center text-xl-start">
                     <h1 class="display-5 fw-bolder text-white mb-2">Register Here</h1>
                     <p class="lead fw-normal text-white-50 mb-4">Already registered? Go ahead and Login</p>
-                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start text-white-50 mb-4">
-                        <form method="post" novalidate>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start text-black-50 mb-4">
+                        <form method="post" novalidate style="color: rgb(147, 152, 147);">
                             {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ next }}">
                             {{ form|crispy }}
 
                             <button type="submit" class="btn btn-success">Sign up</button>
@@ -28,5 +27,4 @@
         </div>
     </div>
 </header>
-
 {% endblock %}

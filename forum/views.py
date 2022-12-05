@@ -22,10 +22,10 @@ def home(request):
         "num_users":num_users,
         "num_categories":num_categories,
         "last_post":last_post,
-        "title": "OZONE forum app"
+        "title": "TheBoatShed Forum"
     }
 
-    return render(request, 'forum/forums.html', context)
+    return render(request, 'forum/forum_index.html', context)
 
 def detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -79,12 +79,12 @@ def create_post(request):
     if request.method == "POST":
         if form.is_valid():
             print("\n\n its valid")
-            author = Author.objects.get(user = request.user.pk)
+            author = Author.objects.get(user = request.user)
             new_post = form.save(commit=False)
-            new_post.user = author
+            new_post.author = author
             new_post.save()
             form.save_m2m()
-            return redirect("forums")
+            return redirect("forum:forums")
     context.update({
         "form": form,
         "title": "OZONE: Create New Post"
@@ -98,7 +98,7 @@ def latest_posts(request):
         "title": "OZONE: Latest 10 Posts"
     }
 
-    return render(request, "forum/forum_latest-posts.html", context)
+    return render(request, "forum/forum_latest_posts.html", context)
 
 def search_result(request):
 

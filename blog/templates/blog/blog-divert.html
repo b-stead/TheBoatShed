@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "menu.html" %}
+{% load static %}
+
+
+{% block content %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-5">
+        <div class="row gx-5 align-items-center justify-content-center">
+            <div class="col-lg-8 col-xl-7 col-xxl-6">
+                <div class="my-5 text-center text-xl-start">
+                    <h1 class="display-5 fw-bolder text-white mb-2">Blog space</h1>
+                    <p class="lead fw-normal text-white-50 mb-4">We're working on this right now. Keep an eye out for the launch!</p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start text-black-50 mb-4">
+                        <form method="post" novalidate style="color: rgb(147, 152, 147);">
+
+
+                            <button class="btn btn-primary"><i class="bi bi-house-door-fill"></i> Home <a class="nav-link" href="{% url 'home:boat_shed' %}"></a></button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5" src="{% static '/images/FILE0085.jpeg' %} " alt="Home image" /></div>
+        </div>
+    </div>
+</header>
+{% endblock %}

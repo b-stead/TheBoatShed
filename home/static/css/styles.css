@@ -4260,7 +4260,7 @@ textarea.form-control-lg {
     z-index: 1000;
     flex-grow: 1;
     visibility: visible !important;
-    background-color: transparent;
+    background-color: rgb(87, 94, 150);
     border-right: 0;
     border-left: 0;
     transition: none;

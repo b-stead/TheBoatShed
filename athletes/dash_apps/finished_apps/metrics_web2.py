@@ -1,7 +1,7 @@
 from turtle import filling, title
 import pandas as pd #(version 0.24.2)
 from datetime import datetime, timedelta, datetime, date
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from dash import Dash, html, dcc
 import plotly       #(version 4.4.1)
 import plotly.express as px
@@ -40,7 +40,22 @@ df = df.fillna(np.nan).replace([np.nan], [None])
 
 app.layout = html.Div([
     html.Div([
-       
+       html.Div(
+    [
+        dbc.Button(
+            "Open collapse",
+            id="collapse-button",
+            className="mb-3",
+            color="primary",
+            n_clicks=0,
+        ),
+        dbc.Collapse(
+            dbc.Card(dbc.CardBody("This content is hidden in the collapse")),
+            id="collapse",
+            is_open=False,
+        ),
+    ]
+),
         html.Div([
             dcc.Dropdown(
                 df['Metric'].unique(), 'Fatigue',
@@ -78,7 +93,15 @@ app.layout = html.Div([
         ])
 
 ])
-
+@app.callback(
+    Output("collapse", "is_open"),
+    [Input("collapse-button", "n_clicks")],
+    [State("collapse", "is_open")],
+)
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 @app.callback(
     Output('metrics-graph1', 'figure'),
     Output('metrics-graph2', 'figure'),

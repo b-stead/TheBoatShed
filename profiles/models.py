@@ -147,7 +147,10 @@ class CoachManager(models.Manager):
 class Coach(User):
     class Meta :
         proxy = True
+        verbose_name_plural = _('coaches')
+
     objects = CoachManager()
+        
       
     def save(self  , *args , **kwargs):
         self.type = User.Role.COACH

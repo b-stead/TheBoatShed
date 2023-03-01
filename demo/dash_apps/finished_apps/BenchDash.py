@@ -11,6 +11,9 @@ import plotly.graph_objects as go
 import json
 import numpy as np
 from django_plotly_dash import DjangoDash
+from dash_bootstrap_templates import load_figure_template
+load_figure_template("superhero")
+
 
 external_stylesheets = [dbc.themes.DARKLY]
 app = DjangoDash('BenchDash', external_stylesheets=[external_stylesheets])

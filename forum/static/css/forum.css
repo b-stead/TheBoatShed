@@ -110,10 +110,10 @@ body{margin-top:20px;
       color: #9b9b9b;
     }
     .forum-item.active .fa {
-      color: #1ab394;
+      color: #473c89;
     }
     .forum-item.active a.forum-item-title {
-      color: #1ab394;
+      color: #473c89;
     }
     @media (max-width: 992px) {
       .forum-info {
@@ -197,7 +197,7 @@ body{margin-top:20px;
         font-size: 14px;
     }
     .text-navy {
-        color: #1ab394;
+        color: #473c89;
     }
     .mid-icon {
         font-size: 66px !important;

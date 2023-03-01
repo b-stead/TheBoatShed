@@ -34,6 +34,7 @@ urlpatterns = [
     path('demo/', include('demo.urls')),
     #path('vbox/', include('vbox.urls')),
     path('forum/', include('forum.urls')),
+    path('onwater/', include('OnWater.urls')),
 
     path('admin/', admin.site.urls),
 

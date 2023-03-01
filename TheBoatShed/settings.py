@@ -197,7 +197,7 @@ SOCIAL_AUTH_GITHUB_SECRET=config("SOCIAL_AUTH_GITHUB_SECRET")
 # https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
+    #'social_core.backends.github.GithubOAuth2',
     #'social_core.backends.twitter.TwitterOAuth',
     #'social_core.backends.facebook.FacebookOAuth2',
     #'social_core.backends.google.GoogleOpenId',

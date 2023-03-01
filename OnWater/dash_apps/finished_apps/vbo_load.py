@@ -10,6 +10,7 @@ import io
 from django_plotly_dash import DjangoDash
 import os
 from OnWater.dash_apps.finished_apps.vb3 import read_vbo
+from OnWater.dash_apps.finished_apps import vb3
 
 external_stylesheet =['https://codepen.io/chriddyp/pen/bWLwgP.css']
 #app = dash.Dash(__name__, external_stylesheets=external_stylesheet)
@@ -46,13 +47,17 @@ def parse_contents(contents, filename, date):
             print('vbo found')
             df=pd.read_csv(
                 io.StringIO(decoded.decode('utf-8')))
-            os.makedirs('folder/subfolder', exist_ok=True)    
+            os.makedirs('OnWater/folder/subfolder', exist_ok=True)    
             n = re.findall(r"^[ \w-]+", filename)
             name = str(n)[2:-2]
-            fname = df.to_csv(f'folder//subfolder//{name}.csv', index=False)
-            #sdf = read_vbo(fname)
-            print(fname)
-            print('sent')
+            fname = df.to_csv(f'OnWater//folder//subfolder//{name}.csv', index=False)
+            file = open(fname, 'rb')
+            print(type(fname))
+            print(type(file))
+            #sdf = vb3.read_vbo(file)
+            #print(name)
+            #print('sent')
+            #print(sdf.head)
 
         elif 'csv' in filename:
             df=pd.read_csv(

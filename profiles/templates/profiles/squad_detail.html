@@ -1,0 +1,17 @@
+{% extends 'menu.html' %} 
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <p class=" text-muted">{{ squad.name }}</p>
+        <p class="card-text ">Lead Coach | {{squad.owner.user_name }}</p>
+
+        {{ squad.location }}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

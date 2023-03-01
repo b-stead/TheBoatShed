@@ -8,7 +8,9 @@ from django.utils import timezone
 from django_resized import ResizedImageField
 from tinymce.models import HTMLField
 from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 # Create your models here.
+
 
 class CustomAccountManager(BaseUserManager):
 
@@ -64,6 +66,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_athlete = models.BooleanField(default=False)
     is_coach= models.BooleanField(default=False) 
+
+    squads = models.ManyToManyField('Squad', related_name='members', blank=True)
+
     objects = CustomAccountManager()
 
     USERNAME_FIELD = 'email'
@@ -93,6 +98,13 @@ class User(AbstractBaseUser, PermissionsMixin):
             self.type = User.Role.COACH
         return super().save(*args , **kwargs)
 
+class Squad(models.Model):
+    name = models.CharField(max_length=255, null=False)
+    location = models.CharField(max_length=50, null=False)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.name} ({self.location})"
+    
 class AthleteManager(models.Manager):
     def create_user(self, email, username, password = None):
         if not email or len(email) <= 0 : 
@@ -109,8 +121,10 @@ class AthleteManager(models.Manager):
         return user
 
     def get_queryset(self , *args,  **kwargs):
-        queryset = super().get_queryset(*args , **kwargs)
-        queryset = queryset.filter(type = User.Role.ATHLETE)
+        coach = kwargs.get('coach', None)
+        queryset = super().get_queryset(*args , **kwargs).filter(type=User.Role.ATHLETE)
+        if coach is not None:
+            queryset = queryset.filter(squads__coach=coach)
         return queryset
 
 class Athlete(User):
@@ -156,3 +170,17 @@ class Coach(User):
         self.type = User.Role.COACH
         self.is_coach = True
         return super().save(*args , **kwargs)
+
+class SquadMembership(models.Model):
+    squad = models.ForeignKey(Squad, on_delete=models.CASCADE, related_name='memberships')
+    coach = models.ForeignKey(User, on_delete=models.CASCADE, related_name='coached_squads')
+    athlete = models.ForeignKey(User, on_delete=models.CASCADE, related_name='squads_joined')
+    date_joined = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.athlete.user_name} ({self.squad.name})"
+
+        #############################################################################
+        ## the reverse relation for coach can be accessed using coached_squads, #####
+        ## and the reverse relation for athlete can be accessed using squads_joined.#
+        #############################################################################

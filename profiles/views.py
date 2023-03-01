@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, TemplateView, View
+from django.views.generic import CreateView, TemplateView, View, ListView, DetailView
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -17,8 +17,8 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from .forms import CoachSignUpForm, AthleteSignUpForm, UpdateProfileForm
-from .models import Coach, Athlete, User
+from .forms import CoachSignUpForm, AthleteSignUpForm, UpdateProfileForm, SquadForm
+from .models import Coach, Athlete, User, Squad
 
 def profiles_test(request):
     template_name = 'profiles/test.html'
@@ -123,24 +123,54 @@ class ProfileUpdateView(LoginRequiredMixin, View):
         form.save_m2m()
         return redirect(self.success_url)
 
+class SquadCreateView(LoginRequiredMixin, CreateView):
+    model = Squad
+    template_name = 'profiles/squad_create.html'
+    success_url = reverse_lazy('profiles:squad_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_coach:
+            return redirect(reverse_lazy('profiles:update'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        form = SquadForm()
+        ctx = {'form': form}
+        return render(request, self.template_name, ctx)
+
+    def post(self, request, *args, **kwargs):
+        user_pk = kwargs.get('pk')
+        user = get_object_or_404(User, id=user_pk)
+        form = SquadForm(request.POST, request.FILES or None, instance=user)
+
+        if not form.is_valid():
+            context = {'form': form}
+            return render(request, self.template_name, context)
+
+        squad = form.save(commit=False)
+        squad.owner = self.request.user
+        squad.save()
+        return redirect(reverse_lazy('profiles:squad_list', kwargs={'pk': user}))
 
 
-"""
-@login_required
-def update_profile(request):
-    context = {}
-    user = request.user 
-    form = UpdateProfileForm(request.POST, request.FILES)
-    if request.method == "POST":
-        if form.is_valid():
-            update_profile = form.save(commit=False)
-            update_profile.user = user
-            update_profile.save()
-            return redirect("home:home")
+class SquadList(ListView):
+    template_name = 'profiles/squad_list.html'
 
-    context.update({
-        "form": form,
-        "title": "Update Profile",
-    })
-    return render(request, "profiles/update.html", context)
-"""
+    def get_queryset(self):
+         coach = self.request.user
+         print(coach)
+         print(coach.pk)
+
+        # Get the squads for which the coach is a coach
+         squads = Squad.objects.filter(owner_id=coach.pk)
+         print(squads)
+         return squads
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['squads'] = self.get_queryset()
+        return context
+
+
+class SquadDetail(DetailView):
+     model = Squad

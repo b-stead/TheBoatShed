@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% extends 'menu.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- Page content-->
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder text-black"> Coach - VBO File List</h1>
+            </div>
+            <div class="row gx-5 justify-content-center text-black">
+
+                <h2>Create A Squad</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit">Create</button>
+                </form>
+{% endblock %}

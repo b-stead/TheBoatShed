@@ -39,20 +39,22 @@ class AthleteDemoView(View):
 
 class AthleteDemoCreate(CreateView):
     model = AthleteDemo
-    template = 'demo/Athlete_create.html'
+    template_name = 'demo/Athlete_create.html'
     fields = '__all__'
     success_url = reverse_lazy('demo:all_athletes')
     
     def get(self, request):
+        print(request.user.__dict__)
         form = AthleteDemoForm()
         ctx = {'form': form}
-        return render(request, self.template, ctx)
+        return render(request, self.template_name, ctx)
 
     def post(self, request):
+        print(request.user.__dict__)
         form = AthleteDemoForm(request.POST)
         if not form.is_valid():
             ctx = {'form':form}
-            return render(request, self.template, ctx)
+            return render(request, self.template_name, ctx)
         athlete = form.save()
         return redirect(self.success_url)
 

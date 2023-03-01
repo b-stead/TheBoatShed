@@ -1,0 +1,10 @@
+{% extends 'menu.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h2>Upload VBO</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Upload</button>
+</form>
+{% endblock %}

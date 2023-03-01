@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'menu.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- Page content-->
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+
+            <div class="row gx-5 justify-content-center text-black">
+
+                <h2>Your Squads</h2>
+                {% if squads %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for squad in squads %}
+                        <tr>
+                            <td><a href="{% url 'profiles:squad_detail' pk=squad.pk %}">{{ squad.name }}</a></td>
+                            <td>{{ squad.location }}</td>
+                            <td>{{ squad.owner.user_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>No Squads</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -64,6 +64,8 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMyTeam">
                         <li><a class="dropdown-item" href="{% url 'athletes:coach' %}">Coach Home</a></li>
                         <li><a class="dropdown-item" href="portfolio-item.html">Team calendar</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profiles:squad_create' pk=user.pk %}">Create Squad</a>
+
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

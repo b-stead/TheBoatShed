@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import User, Coach
+from .models import User, Coach, Squad, SquadMembership
 # Create your forms here.
 
 class CoachSignUpForm(UserCreationForm):
@@ -39,3 +39,15 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "bio", "profile_pic")
+
+
+class SquadForm(forms.ModelForm):
+    class Meta:
+        model = Squad
+        fields = ('name','location',)
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Squad Name'
+            })
+        }

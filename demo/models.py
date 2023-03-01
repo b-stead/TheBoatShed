@@ -39,7 +39,7 @@ class CoachDemo(models.Model):
     profile_pic = ResizedImageField(size=[50, 80], quality=100, upload_to="coachdemo", default=None, null=True, blank=True)
 
     def __str__(self):
-        return self.username
+        return self.user_name
     
 
 class AthleteDemo(models.Model):
@@ -61,4 +61,4 @@ class AthleteDemo(models.Model):
     def age(self):
         return int((datetime.now().date() - self.DOB).days / 365.25)
     def __str__(self):
-        return self.username
+        return self.user_name

@@ -50,9 +50,9 @@ def parse_contents(contents, filename, date):
             os.makedirs('OnWater/folder/subfolder', exist_ok=True)    
             n = re.findall(r"^[ \w-]+", filename)
             name = str(n)[2:-2]
-            fname = df.to_csv(f'OnWater//folder//subfolder//{name}.csv', index=False)
+            fname = df.to_csv(f'OnWater//folder//subfolder//{name}.vbo', index=False)
             file = open(fname, 'rb')
-            print(type(fname))
+            print(fname)
             print(type(file))
             #sdf = vb3.read_vbo(file)
             #print(name)

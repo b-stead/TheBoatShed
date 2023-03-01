@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from . models import User, Athlete, Coach
+from . models import User, Athlete, Coach, Squad
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
@@ -14,11 +14,19 @@ class UserAdminConfig(UserAdmin):
     search_fields = ('email', 'user_name', 'first_name',)
     ordering = ('-start_date',)
     list_display = ('email', 'user_name', 'first_name',
-                        'is_active', 'is_staff', 'is_coach', 'is_athlete', 'is_superuser')
+                        'is_active', 'is_staff', 'is_coach', 'is_athlete', 'is_superuser', 'squads_list')
+    
+    def squads_list(self, obj):
+        return ", ".join([str(squad) for squad in obj.squads.all()])
 
+    
+    squads_list.short_description = 'Squads'
+
+    
+    
     fieldsets = (
         (None, {'fields': ('email', 'user_name', 'first_name',)}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_coach', 'is_athlete', 'is_superuser')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_coach', 'is_athlete', 'is_superuser','squads')}),
         ('Personal', {'fields': ('bio','profile_pic')}),
     )
     formfield_overrides = {
@@ -30,6 +38,9 @@ class UserAdminConfig(UserAdmin):
             'fields': ('email', 'user_name', 'first_name', 'password1', 'password2', 'is_active', 'is_staff', 'is_coach', 'is_athlete')}
          ),
     )
+
+
 admin.site.register(User, UserAdminConfig)
 admin.site.register(Athlete)
 admin.site.register(Coach)
+admin.site.register(Squad)

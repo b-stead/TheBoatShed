@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.views.generic import ListView, CreateView, DetailView
 from . import models
 from profiles.models import Athlete, Coach
+from .forms import SessionCreateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
@@ -27,13 +28,22 @@ class AthleteView(LoginRequiredMixin, ListView):
 
 class SessionCreateView(CreateView):
     model = models.Session
-    fields = '__all__'
-    template_name = 'session_create.html'
+    form_class = SessionCreateForm
+    template_name = 'athletes/session_create.html'
     success_url = reverse_lazy('athletes:session_create')    
 
 class EffortCreateView(CreateView):
     model = models.Effort
     fields = '__all__'
-    template_name = 'Effort_create.html'
+    template_name = 'athletes/Effort_create.html'
     success_url = reverse_lazy('athletes:session_create')
 
+class VenueCreateView(CreateView):
+    model = models.Venue
+    fields = '__all__'
+    template_name = 'athletes/venue_create.html'
+    success_url = reverse_lazy('athletes:venue_create')
+
+class AthleteListView(ListView):
+    model = Athlete
+    template_name = 'athletes/athlete_list.html'

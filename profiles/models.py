@@ -105,7 +105,10 @@ class AthleteManager(models.Manager):
         )
         user.user_name(username)
         user.set_password(password)
+        user.type = User.Role.ATHLETE
         user.save(using = self._db)
+        #creates athlete model for Atheltes app
+        Athlete.objects.create(user=user)
         return user
 
     def get_queryset(self , *args,  **kwargs):
@@ -130,9 +133,7 @@ class CoachManager(models.Manager):
         if not password :
             raise ValueError("Password is must !")
         email = email.lower()
-        user = self.model(
-            email = email
-        )
+        user = self.model(email = email)
         user.first_name = (firstname)
         user.user_name(username)
         user.set_password(password)

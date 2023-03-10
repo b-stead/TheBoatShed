@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'menu.html' %}
+
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+  </form>
+  
+  <div class="container">
+    <h1>Speed vs Time</h1>
+    <div class="graph">
+      {{ graph|safe }}
+    </div>
+    <h2>Speed Statistics</h2>
+    <ul>
+      <li>Peak 50m Speed: {{ peak_50m_speed }}</li>
+      <li>Peak 100m Speed: {{ peak_100m_speed }}</li>
+      <li>Average 50m Speed: {{ avg_50m_speed }}</li>
+      <li>Average 100m Speed: {{ avg_100m_speed }}</li>
+    </ul>
+  </div>
+{% endblock %}

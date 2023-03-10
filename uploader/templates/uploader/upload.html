@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'menu.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<section class="py-0" style="background-color: rgb(246, 246, 246);">
+    <div class="container px-5 my-2">
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-6">
+                <div class="text-center">
+                    <h1 class="display-12 fw-bolder text-black mb-2">Upload VBO File</h1>
+                    <p class="lead fw-normal text-muted mb-5">Add File info here, This is saved to the database and re-used when analysing the file
+                </div>
+            </div>
+        </div>
+        <div class="row gx-5 justify-content-center">
+            <div class="col-lg-4 mb-5">
+                <div class="card h-100 shadow border-0">
+                    <div class="card-body p-4">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                <button type="submit">Upload</button>
+                            </form>
+                    </div>
+                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                        <div class="d-flex align-items-end justify-content-between">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

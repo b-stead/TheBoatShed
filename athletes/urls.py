@@ -8,7 +8,10 @@ urlpatterns = [
     path('', views.CoachView.as_view(), name='coach'),
     path('session/create', views.SessionCreateView.as_view(), name='session_create'),
     path('effort/create', views.EffortCreateView.as_view(), name='effort_create'),
-    path('metrics', TemplateView.as_view(template_name='metrics.html'), name='metrics'),
+    path('venue/create', views.VenueCreateView.as_view(), name='venue_create'),
+
+    path('athlete-list/', views.AthleteListView.as_view(), name='athlete_list'),
+    
     path('athletes/', include(([
         path('', views.AthleteView.as_view(), name='athlete'),
         

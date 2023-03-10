@@ -34,10 +34,12 @@
                     </ul>
                 </li>
                 {% if user.is_authenticated %}
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMyTeam" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My Team</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMyTeam">
                         <li><a class="dropdown-item" href="{% url 'athletes:coach' %}">Coach Home</a></li>
+                        <li><a class="dropdown-item" href="{% url 'uploader:vbo' %}">Upload File</a></li>
                         <li><a class="dropdown-item" href="portfolio-item.html">Team calendar</a></li>
                     </ul>
                 </li>

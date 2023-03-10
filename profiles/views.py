@@ -13,7 +13,7 @@ from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from .forms import CoachSignUpForm, AthleteSignUpForm, UpdateProfileForm
+from .forms import CoachSignUpForm, AthleteSignUpForm, UpdateProfileForm, AthleteForm
 from .models import Coach, Athlete, User
 
 
@@ -105,3 +105,17 @@ def update_profile(request):
         "title": "Update Profile",
     })
     return render(request, "profiles/update.html", context)
+
+def athlete_create(request):
+    if request.method == 'POST':
+        form = AthleteForm(request.POST)
+        if form.is_valid():
+            athlete = form.save(commit=False)
+            athlete.is_athlete = True
+            athlete.type = User.Role.ATHLETE # set user type to athlete
+            athlete.set_password(form.cleaned_data['password'])
+            athlete.save()
+            return redirect('athletes:athlete_list')
+    else:
+        form = AthleteForm()
+    return render(request, 'profiles/athlete_create.html', {'form': form})

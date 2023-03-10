@@ -30,9 +30,8 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('athletes/', include('athletes.urls')),
     path('profiles/', include('profiles.urls')),
-    #path('uploader', include('uploader.urls')),
-    path('demo/', include('demo.urls')),
-    #path('vbox/', include('vbox.urls')),
+    path('uploader/', include('uploader.urls')),
+    path('dataStore/', include('dataStore.urls')),
     path('forum/', include('forum.urls')),
 
     path('admin/', admin.site.urls),

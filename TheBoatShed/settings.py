@@ -44,12 +44,10 @@ INSTALLED_APPS = [
 
     'home.apps.HomeConfig',
     'blog.apps.BlogConfig',
-    'OnWater.apps.OnwaterConfig',
     'profiles.apps.ProfilesConfig',
     'athletes.apps.AthletesConfig',
-    #'uploader.apps.UploaderConfig',
-    #'vbox.apps.VboxConfig',
-    'demo.apps.DemoConfig',
+    'uploader.apps.UploaderConfig',
+    'dataStore.apps.DatastoreConfig',
     'forum.apps.ForumConfig',
 
     'crispy_forms',
@@ -60,7 +58,6 @@ INSTALLED_APPS = [
     'tinymce',
     'hitcount',
     'taggit',
-    #'register',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

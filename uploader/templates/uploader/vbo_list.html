@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'menu.html' %}
+
+{% block content %}
+<!-- Page content-->
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder text-black"> Coach - VBO File List</h1>
+            </div>
+            <div class="row gx-5 justify-content-center text-black">
+
+            <table>
+  <thead>
+    <tr>
+      <th>File name</th>
+      <th>Crew</th>
+      <th>Session</th>
+      <th>Session date</th>
+      <th>Processed</th>
+      <th>Get Data</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for vbo in object_list %}
+    <tr>
+      <td>{{ vbo.file.name }}</td>
+      <td>{{ vbo.crew }}</td>
+      <td>{{ vbo.session }}</td>
+      <td>{{ vbo.session_date }}</td>
+      <td>{% if vbo.processed %}&#x2713;{% endif %}</td>
+      <td><a href="{% url 'dataStore:vbo_process' pk=vbo.pk %}">Go</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
